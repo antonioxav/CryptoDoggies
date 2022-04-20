@@ -114,7 +114,9 @@ contract CryptoDoggies
         address payable recipient = payable(msg.sender);
         // ! FIX 1: Reset PreviousOwner to avoid double payment
         previous_owner[my_former_doggy] = address(0); 
-        recipient.call{value: price[my_former_doggy]}(""); //pay the sale value to the previous owner
+        (bool success, ) = recipient.call{value: price[my_former_doggy]}(""); //pay the sale value to the previous owner
+        // ! FIX 2: Handle Return Value from call function
+        require(success);
     }
 
     //buy a doggy that was previously put up for sale by its owner
