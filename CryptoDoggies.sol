@@ -53,7 +53,7 @@ contract CryptoDoggies
 
         //add it to the list of doggies and put it under the control of the caller of this function
         doggies.push(new_doggy);
-        owner[new_doggy] = tx.origin;
+        owner[new_doggy] = msg.sender; // ! FIX 5: use msg.sender consistently everywhere
         birthBlock[new_doggy] = block.number;
         paidCreationFee[new_doggy] = msg.value;
 
@@ -103,7 +103,7 @@ contract CryptoDoggies
     //puts up a doggy for sale
     function sellDoggy(uint16 my_doggy, uint asking_price) public
     {
-        require(owner[my_doggy] == tx.origin);
+        require(owner[my_doggy] == msg.sender); // ! FIX 5: use msg.sender consistently everywhere
         price[my_doggy] = asking_price;
     }
 
